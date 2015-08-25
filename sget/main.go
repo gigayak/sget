@@ -48,23 +48,12 @@ func main() {
 		Certificates: []tls.Certificate{cert},
 		RootCAs: caPool,
 	}
-	/*
-	proxyURL, err := url.Parse(*proxyAddr)
-	if err != nil {
-		log.Fatalf("Failed to parse proxy address %q: %v", *proxyAddr, err)
-	}
-	log.Printf("Proxying via %q", proxyURL.String())
-	*/
 	dialTLS := func (network, addr string) (net.Conn, error) {
-		// dialTLS("tcp", "repo.jgilik.com:443"
-		log.Printf("Got dialTLS(%q, %q)", network, addr)
-		return net.Dial(network, *proxyAddr)
-		//return nil, errors.New("have not yet implemented glorious hostname override in dialTLS function - pretend to be dialing based on hostname here, but actually contact proxyURL")
+		return tls.Dial(network, *proxyAddr, tlsConfig)
 	}
 	transport := &http.Transport{
 		TLSClientConfig: tlsConfig,
 		DialTLS: dialTLS,
-		//Proxy: http.ProxyURL(proxyURL),
 	}
 	client := &http.Client{
 		Transport: transport,
@@ -79,22 +68,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to construct request for URL %q", url, err)
 	}
-	// Forcibly coerce to HTTPS scheme so DialTLS is used.
-	// This allows HTTPS proxy to be used.
-	//req.URL.Scheme = "https"
-	/*
-	log.Printf("Setting host to %q", req.URL.Host)
-	req.Host = req.URL.Host
-	req.Header.Set("Host", req.URL.Host)
-	req.URL.Host = *proxyAddr
-	log.Printf("URL Host is %q", req.URL.Host)
-	log.Printf("Header Host is %q", req.Host)
-	*/
+	//req.Host = req.URL.Host
+	//req.Header.Set("Host", req.URL.Host)
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatalf("GET failed for URL %q: %v", url, err)
 	}
-	log.Printf("Completed request.")
 	if *stdout {
 		buf := make([]byte, 512, 512)
 		for {
