@@ -3,14 +3,12 @@ package main
 import (
 	"crypto/tls"
 	"crypto/x509"
-	//"errors"
 	"flag"
 	"io"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
-	//"net/url"
 	"os"
 )
 
@@ -68,8 +66,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to construct request for URL %q", url, err)
 	}
-	//req.Host = req.URL.Host
-	//req.Header.Set("Host", req.URL.Host)
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatalf("GET failed for URL %q: %v", url, err)
