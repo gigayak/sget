@@ -17,6 +17,8 @@ var (
 		"Whether to save to stdout")
 	_ = flag.Bool("retry-connrefused", false,
 		"non-operation; exists for wget compatibility")
+	_ = flag.Bool("q", false,
+		"non-operation; exists for wget compatibility")
 	keyPath = flag.String("key", "/opt/ssl/client.key",
 		"Private key for client certificate.")
 	certPath = flag.String("cert", "/opt/ssl/client.crt",
