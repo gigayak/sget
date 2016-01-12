@@ -78,7 +78,7 @@ func main() {
 			n, err := resp.Body.Read(buf)
 			os.Stdout.Write(buf[0:n])
 			if err == io.EOF {
-				return
+				break
 			} else if err != nil {
 				log.Fatalf("Error reading response body: %v", err)
 			}
