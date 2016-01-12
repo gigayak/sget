@@ -83,6 +83,9 @@ func main() {
 				log.Fatalf("Error reading response body: %v", err)
 			}
 		}
+		if resp.StatusCode < 200 || resp.StatusCode >= 400 {
+			log.Fatalf("Received error code %d", resp.StatusCode)
+		}
 	} else {
 		log.Fatalf("Currently only stdout output is supported")
 	}
